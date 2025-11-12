@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "PRODUCTO")
 @Getter @Setter @ToString
@@ -30,10 +33,12 @@ public class Producto {
     @NotNull(message = "El campo 'stock' no puede ser vacio")
     private Integer stock;
 
-    @Column(name = "IMAGEN_URL")
-    private String imagenUrl;
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "ID_CATEGORIA",nullable = false,
+    foreignKey = @ForeignKey(name = "fk_producto_categoria"))
+    @NotNull(message = "El campo 'categoria' no puede ser vacio")
+    private Categoria categoria;
 
-    @Column(name = "ID_CATEGORIA",nullable = false)
-    @NotNull(message = "El campo de ")
-    private Long idCategoria;
+    @OneToMany(mappedBy = "PRODUCTO", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<ProductoImagen> imagenes = new ArrayList<>();
 }

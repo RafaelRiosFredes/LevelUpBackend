@@ -1,6 +1,7 @@
 package com.duoc.LevelUp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class Categoria {
     @Column(name = "ID_CATEGORIA")
     private Long idCategoria;
 
-    @Column(name = "NOMBRE_CATEGORIA")
+    @Column(name = "NOMBRE_CATEGORIA",nullable = false)
+    @NotNull(message = "El campo 'nombre de categoria' no puede ser vacio")
     private String nombreCategoria;
 }
