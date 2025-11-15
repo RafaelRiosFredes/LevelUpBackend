@@ -14,31 +14,31 @@ import java.util.List;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PRODUCTO")
+    @Column(name = "id_producto")
     private Long idProducto;
 
-    @Column(name = "NOMBRE_PRODUCTO",nullable = false)
+    @Column(name = "nombre_producto",nullable = false)
     @NotNull(message = "El campo 'nombre de producto' no puede ser vacio")
     private String nombreProducto;
 
-    @Column(name = "DESCRIPCION",nullable = false)
+    @Column(name = "descripcion",nullable = false)
     @NotNull(message = "El campo 'descripcion' no puede ser vacio")
     private String descripcion;
 
-    @Column(name = "PRECIO",nullable = false)
+    @Column(name = "precio",nullable = false)
     @NotNull(message = "El campo 'precio' no puede ser vacio")
     private Long precio;
 
-    @Column(name = "STOCK",nullable = false)
+    @Column(name = "stock",nullable = false)
     @NotNull(message = "El campo 'stock' no puede ser vacio")
     private Integer stock;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "ID_CATEGORIA",nullable = false,
+    @JoinColumn(name = "id_categoria",nullable = false,
     foreignKey = @ForeignKey(name = "fk_producto_categoria"))
     @NotNull(message = "El campo 'categoria' no puede ser vacio")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "PRODUCTO", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ProductoImagen> imagenes = new ArrayList<>();
 }

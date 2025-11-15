@@ -13,25 +13,25 @@ import lombok.Setter;
 public class ProductoImagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_IMAGEN")
+    @Column(name = "id_imagen")
     private Long idImagen;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_PRODUCTO", nullable = false,
+    @JoinColumn(name = "id_producto", nullable = false,
             foreignKey = @ForeignKey(name = "fk_imagen_producto"))
     private Producto producto;
 
-    @Column(name = "NOMBRE_ARCHIVO",nullable = false)
+    @Column(name = "nombre_archivo",nullable = false)
     private String nombreArchivo;
 
-    @Column(name = "CONTENT_TYPE",nullable = false)
+    @Column(name = "content_type",nullable = false)
     private String contentType;
 
-    @Column(name = "SIZE_BYTES",nullable = false)
+    @Column(name = "size_bytes",nullable = false)
     private Long sizeBytes;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "DATA",nullable = false,columnDefinition = "BYTEA")
+    @Column(name = "data",nullable = false,columnDefinition = "BYTEA")
     private byte[] data;
 }
