@@ -93,7 +93,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoResponseDTO crear(ProductoCreateDTO dto) {
         if (productoRepo.existsByNombreProductoIgnoreCase(dto.getNombreProducto())){
-
+            throw new IllegalArgumentException("Ya existe un producto con ese nombre");
         }
         Producto saved = productoRepo.save(fromCreate(dto));
         return toDTO(saved);

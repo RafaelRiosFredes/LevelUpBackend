@@ -5,9 +5,10 @@ import com.duoc.LevelUp.repositories.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-        import java.util.List;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorias")
@@ -21,6 +22,7 @@ public class CategoriaController {
         return categoriaRepo.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Categoria> crear(@RequestBody Categoria categoria) {
         Categoria saved = categoriaRepo.save(categoria);

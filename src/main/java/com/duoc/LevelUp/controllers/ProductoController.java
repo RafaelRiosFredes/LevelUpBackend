@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProductoController {
     private final ProductoService service;
     private final ProductoImagenService imagenService;
 
+    //público
     @GetMapping
     public Page<ProductoResponseDTO> listar(
             @RequestParam(required = false) String nombre,
@@ -29,7 +31,7 @@ public class ProductoController {
             @RequestParam(required = false) Long minPrecio,
             @RequestParam(required = false) Long maxPrecio,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "idProducto,asc") String sort
     ){
         String[] s = sort.split(",");
@@ -42,23 +44,28 @@ public class ProductoController {
         return service.obtener(id);
     }
 
+    //solo admin
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductoResponseDTO> crear(@Valid @RequestBody ProductoCreateDTO dto){
         ProductoResponseDTO creado = service.crear(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ProductoResponseDTO actualizar(@PathVariable Long id, @Valid @RequestBody ProductoUpdateDTO dto){
         return service.actualizar(id,dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         service.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{idProducto}/imagenes")
     public ResponseEntity<ProductoImagenResponseDTO> agregarImagen(
             @PathVariable Long idProducto,
@@ -67,6 +74,7 @@ public class ProductoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
+    //público
     @GetMapping("/{idProducto}/imagenes")
     public List<ProductoImagenResponseDTO> listarImagenes(@PathVariable Long idProducto){
         return imagenService.listarPorProducto(idProducto);
