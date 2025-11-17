@@ -49,7 +49,13 @@ public class DataInitializer {
                 admin.setFechaNacimiento(LocalDate.of(1990,1,1));
                 admin.setDuoc(false);
                 admin.setDescApl(false);
-                admin.setRoles(Set.of(adminRol));
+
+                // si la coleccion ya viene inicializada en la entidad:
+                admin.getRoles().add(userRol);
+                admin.getRoles().add(adminRol);
+
+                // si no viene inicializada:
+                // admin.setRoles(new HashSet<>(Set.of(adminRol)));
 
                 usuarioRepo.save(admin);
             }

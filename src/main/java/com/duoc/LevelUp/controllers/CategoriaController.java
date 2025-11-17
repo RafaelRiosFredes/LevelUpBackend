@@ -25,6 +25,10 @@ public class CategoriaController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Categoria> crear(@RequestBody Categoria categoria) {
+        if (categoriaRepo.existsByNombreCategoriaIgnoreCase(categoria.getNombreCategoria())) {
+            throw new IllegalArgumentException("Ya existe una categoría con ese nombre");
+        }
+
         Categoria saved = categoriaRepo.save(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }

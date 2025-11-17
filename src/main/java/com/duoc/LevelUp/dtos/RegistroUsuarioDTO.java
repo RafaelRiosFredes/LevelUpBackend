@@ -10,23 +10,23 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RegistroUsuarioDTO {
     @NotBlank
-    String nombres;
+    private String nombres;
 
     @NotBlank
-    String apellidos;
+    private String apellidos;
 
     @NotBlank
     @Email
-    String correo;
+    private String correo;
 
     @NotBlank
-    String contrasena;
+    private String contrasena;
 
     @NotNull
     @Positive
-    Long telefono;
+    private Long telefono;
 
     @NotNull
     @Past
-    LocalDate fechaNacimiento;
+    private LocalDate fechaNacimiento;
 }

@@ -31,6 +31,13 @@ public class GlobalExceptionHandler {
                 .body(body(HttpStatus.INTERNAL_SERVER_ERROR,"Error interno"));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String,Object>> handleIllegalArgument(IllegalArgumentException ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(body(HttpStatus.BAD_REQUEST,ex.getMessage()));
+    }
+
     private Map<String,Object> body(HttpStatus status,String message){
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("timestamp",Instant.now().toString());
