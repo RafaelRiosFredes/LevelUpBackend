@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Usuario {
     @Id
@@ -48,4 +50,7 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "rol_id_rol")
     )
     private Set<Rol> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Opinion> opiniones = new ArrayList<>();
 }

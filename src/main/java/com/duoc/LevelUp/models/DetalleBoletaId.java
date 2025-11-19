@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @Embeddable
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class DetalleBoletaId implements java.io.Serializable{
     @Column(name = "boleta_id_boleta")

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "PRODUCTO")
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Producto {
     @Id
@@ -41,4 +41,7 @@ public class Producto {
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ProductoImagen> imagenes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Opinion> opiniones = new ArrayList<>();
 }

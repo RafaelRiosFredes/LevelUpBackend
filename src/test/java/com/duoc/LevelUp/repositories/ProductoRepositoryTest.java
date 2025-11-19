@@ -26,8 +26,8 @@ public class ProductoRepositoryTest {
         Producto p = new Producto();
         p.setNombreProducto("PS5");
         p.setDescripcion("Consola PS5");
-        p.setPrecio(549990L);
-        p.setStock(5);
+        p.setPrecio(Long.valueOf(549990L));
+        p.setStock(Integer.valueOf(5));
         p.setCategoria(categoria);
 
         Producto saved = productoRepo.save(p);
