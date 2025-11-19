@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,13 +20,15 @@ public class NoticiaServiceImpl implements NoticiaService {
 
     private final NoticiaRepository noticiaRepo;
 
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ISO_LOCAL_DATE;
+
     private NoticiaResponseDTO toDTO(Noticia n) {
         return NoticiaResponseDTO.builder()
                 .idNoticia(n.getIdNoticia())
                 .titulo(n.getTitulo())
                 .descripcion(n.getDescripcion())
                 .autor(n.getAutor())
-                .fechaPublicacion(n.getFechaPublicacion().toString()) // yyyy-MM-dd
+                .fechaPublicacion(n.getFechaPublicacion().format(DATE_FMT)) // yyyy-MM-dd
                 .imagenes(n.getImagenes().stream().map(img->
                         NoticiaImagenResponseDTO.builder()
                                 .idImagenNoticia(img.getIdImagenNoticia())
