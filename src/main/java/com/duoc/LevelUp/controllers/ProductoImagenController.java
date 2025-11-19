@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ImagenController {
+public class ProductoImagenController {
     private final ProductoImagenService imagenService;
 
     @GetMapping("/api/imagenes/{idImagen}")

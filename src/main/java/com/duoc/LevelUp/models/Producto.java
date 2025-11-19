@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PRODUCTO")
+@Table(name = "producto")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Producto {
@@ -18,11 +18,11 @@ public class Producto {
     private Long idProducto;
 
     @Column(name = "nombre_producto",nullable = false)
-    @NotNull(message = "El campo 'nombre de producto' no puede ser vacio")
+    @NotBlank(message = "El campo 'nombre de producto' no puede ser vacio")
     private String nombreProducto;
 
     @Column(name = "descripcion",nullable = false)
-    @NotNull(message = "El campo 'descripcion' no puede ser vacio")
+    @NotBlank(message = "El campo 'descripcion' no puede ser vacio")
     private String descripcion;
 
     @Column(name = "precio",nullable = false)

@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "CATEGORIA")
+@Table(name = "categoria")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CATEGORIA")
+    @Column(name = "id_categoria")
     private Long idCategoria;
 
-    @Column(name = "NOMBRE_CATEGORIA",nullable = false)
-    @NotNull(message = "El campo 'nombre de categoria' no puede ser vacio")
+    @Column(name = "nombre_categoria",nullable = false)
+    @NotNull(message = "El nombre de categoria no puede ser vacio")
     private String nombreCategoria;
 }

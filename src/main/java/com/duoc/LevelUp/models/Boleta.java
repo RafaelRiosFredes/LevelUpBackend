@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "boleta")
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Boleta {
     @Id

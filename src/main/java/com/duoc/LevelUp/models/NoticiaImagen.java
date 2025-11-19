@@ -7,23 +7,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "producto_imagen")
+@Table(name = "noticia_imagen")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class ProductoImagen {
+public class NoticiaImagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_imagen")
-    private Long idImagen;
+    @Column(name = "id_imagen_noticia")
+    private Long idImagenNoticia;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_producto", nullable = false, foreignKey = @ForeignKey(name = "fk_imagen_producto"))
-    private Producto producto;
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(
+            name = "id_noticia",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "noticia_imagen_noticia_fk"))
+    private Noticia noticia;
 
-    @Column(name = "nombre_archivo",nullable = false)
+    @Column(name = "nombre_archivo",nullable = false,length = 500)
     private String nombreArchivo;
 
-    @Column(name = "content_type",nullable = false)
+    @Column(name = "content_type",nullable = false,length = 30)
     private String contentType;
 
     @Column(name = "size_bytes",nullable = false)

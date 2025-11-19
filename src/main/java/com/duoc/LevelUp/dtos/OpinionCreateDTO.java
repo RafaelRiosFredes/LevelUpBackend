@@ -4,9 +4,8 @@ import lombok.*;
 
 import jakarta.validation.constraints.*;
 
-@Getter @Setter
+@Getter @Setter@ToString
 @NoArgsConstructor @AllArgsConstructor
-@ToString
 public class OpinionCreateDTO {
     @NotBlank
     private String comentario;
