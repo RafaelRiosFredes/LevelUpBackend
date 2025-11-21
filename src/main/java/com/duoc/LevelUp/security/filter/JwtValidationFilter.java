@@ -35,6 +35,24 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                                     FilterChain chain)
             throws IOException, ServletException {
 
+        String path = request.getServletPath();
+
+        // RUTAS PÚBLICAS (NO VALIDAR JWT)
+        if (path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-resources")
+                || path.startsWith("/webjars")
+                || path.equals("/swagger-ui.html")
+                || path.equals("/api/v1/auth/login")
+                || path.equals("/api/v1/auth/registro")
+                || path.startsWith("/api/v1/productos")
+                || path.startsWith("/api/v1/categorias")
+                || path.startsWith("/api/v1/noticias")) {
+
+            chain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader(HEADER_STRING);
 
         if (header == null || !header.startsWith(JWT_TOKEN_PREFIX)) {
@@ -54,10 +72,8 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
         String rolesJson = claims.getPayload().get("authorities").toString();
 
         List<SimpleGrantedAuthority> authorities =
-                new ObjectMapper().readValue(
-                        rolesJson,
-                        new TypeReference<>() {}
-                );
+                new ObjectMapper().readValue(rolesJson, new TypeReference<>() {
+                });
 
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
