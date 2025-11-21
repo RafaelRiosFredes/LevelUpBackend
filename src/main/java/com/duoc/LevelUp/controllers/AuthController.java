@@ -1,5 +1,7 @@
 package com.duoc.LevelUp.controllers;
 
+import com.duoc.LevelUp.dtos.LoginRequestDTO;
+import com.duoc.LevelUp.dtos.LoginResponseDTO;
 import com.duoc.LevelUp.dtos.RegistroUsuarioDTO;
 import com.duoc.LevelUp.dtos.UsuarioResponseDTO;
 import com.duoc.LevelUp.services.AuthService;
@@ -24,9 +26,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("{\"message\":\"Use POST /api/v1/auth/login para autenticarse\"}");
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO dto) {
+        LoginResponseDTO resp = authService.login(dto);
+        return ResponseEntity.ok(resp);
     }
-
 }

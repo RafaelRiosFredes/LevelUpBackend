@@ -1,8 +1,8 @@
 package com.duoc.LevelUp.services;
 
-import com.duoc.LevelUp.dtos.RegistroUsuarioDTO;
-import com.duoc.LevelUp.dtos.UsuarioResponseDTO;
+import com.duoc.LevelUp.dtos.*;
 
 public interface AuthService {
     UsuarioResponseDTO registrar(RegistroUsuarioDTO dto);
+    LoginResponseDTO login(LoginRequestDTO dto);
 }
