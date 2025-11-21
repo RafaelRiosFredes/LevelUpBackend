@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/noticias/imagenes")
+@RequestMapping("/api/v1/noticias/imagenes")
 @RequiredArgsConstructor
 public class NoticiaImagenController {
     private final NoticiaImagenService noticiaImagenService;

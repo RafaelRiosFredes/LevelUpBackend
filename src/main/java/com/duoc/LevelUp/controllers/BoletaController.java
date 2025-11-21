@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/boletas")
+@RequestMapping("/api/v1/boletas")
 @RequiredArgsConstructor
 public class BoletaController {
     private final BoletaService boletaService;

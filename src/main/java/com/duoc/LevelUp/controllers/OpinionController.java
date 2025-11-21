@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/productos/{idProducto}/opiniones")
+@RequestMapping("/api/v1/productos/{idProducto}/opiniones")
 @RequiredArgsConstructor
 public class OpinionController {
     private final OpinionService opinionService;

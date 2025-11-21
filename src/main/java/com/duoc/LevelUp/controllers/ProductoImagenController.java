@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductoImagenController {
     private final ProductoImagenService imagenService;
 
-    @GetMapping("/api/imagenes/{idImagen}")
+    @GetMapping("/api/v1/imagenes/{idImagen}")
     public ResponseEntity<byte[]> verImagen(@PathVariable Long idImagen){
         byte[] data = imagenService.obtenerBytes(idImagen);
         String contentType = imagenService.obtenerContentType(idImagen);
@@ -27,7 +27,7 @@ public class ProductoImagenController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/api/imagenes/{idImagen}")
+    @DeleteMapping("/api/v1/imagenes/{idImagen}")
     public ResponseEntity<Void> eliminar(@PathVariable Long idImagen){
         imagenService.eliminar(idImagen);
         return ResponseEntity.noContent().build();

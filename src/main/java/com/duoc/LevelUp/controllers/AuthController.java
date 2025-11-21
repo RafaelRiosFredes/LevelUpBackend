@@ -3,17 +3,14 @@ package com.duoc.LevelUp.controllers;
 import com.duoc.LevelUp.dtos.RegistroUsuarioDTO;
 import com.duoc.LevelUp.dtos.UsuarioResponseDTO;
 import com.duoc.LevelUp.services.AuthService;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
@@ -23,4 +20,11 @@ public class AuthController {
         UsuarioResponseDTO resp = authService.registrar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("{\"message\":\"Use POST /api/v1/auth/login para autenticarse\"}");
+    }
+
 }
