@@ -34,7 +34,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .imagenes(p.getImagenes().stream().map(img->
                         ProductoImagenResponseDTO.builder()
                                 .idImagen(img.getIdImagen())
-                                .url("/api/imagenes/" + img.getIdImagen())
+                                .url("/api/v1/imagenes/" + img.getIdImagen())
                                 .contentType(img.getContentType())
                                 .sizeBytes(img.getSizeBytes())
                                 .nombreArchivo(img.getNombreArchivo())

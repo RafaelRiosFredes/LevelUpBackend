@@ -34,9 +34,16 @@ public class ProductoController {
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "idProducto,asc") String sort
     ){
-        String[] s = sort.split(",");
-        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.fromString(s[1]), s[0]));
-        return service.listar(nombre,idCategoria,minPrecio,maxPrecio,pageable);
+        String[] sortParams = sort.split(",");
+        Sort sortObj = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+
+        int pageSize = Math.min(size, 20);
+        if (pageSize <= 0) {
+            pageSize = 20;
+        }
+
+        Pageable pageable = PageRequest.of(page, pageSize, sortObj);
+        return service.listar(nombre, idCategoria, minPrecio, maxPrecio, pageable);
     }
 
     @GetMapping("/{id}")
