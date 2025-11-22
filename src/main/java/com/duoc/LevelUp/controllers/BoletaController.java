@@ -30,11 +30,12 @@ public class BoletaController {
     }
 
     // ver detalle de una boleta por id
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/{id}")
     public BoletaResponseDTO obtener(@PathVariable Long id){
         return boletaService.obtenerPorId(id);
     }
+
 
     // listar boletas con paginacion (max 20)
     @PreAuthorize("hasRole('ADMIN')")
