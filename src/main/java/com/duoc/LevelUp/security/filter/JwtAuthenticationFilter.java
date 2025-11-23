@@ -1,6 +1,7 @@
 package com.duoc.LevelUp.security.filter;
 
 import com.duoc.LevelUp.models.Usuario;
+import com.duoc.LevelUp.security.CustomUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,7 +35,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
-        this.setFilterProcessesUrl("/api/v1/login"); // igual que el ejemplo base
+        // La URL de proceso se establece aquí, asegurando que coincida con el endpoint de login.
+        this.setFilterProcessesUrl("/api/v1/auth/login");
     }
 
     @Override
@@ -66,10 +68,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult)
             throws IOException {
 
-        org.springframework.security.core.userdetails.User user =
-                (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
+        // CORRECCIÓN: Castear a la clase CustomUserDetails, no a org.springframework.security.core.userdetails.User
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authResult.getPrincipal();
 
-        String username = user.getUsername();
+        String username = userDetails.getUsername();
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
         Claims claims = Jwts.claims()
