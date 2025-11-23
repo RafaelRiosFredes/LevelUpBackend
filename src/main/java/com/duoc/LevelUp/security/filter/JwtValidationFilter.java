@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors; // Necesario para Collectors
+import java.util.stream.Collectors;
 
 import static com.duoc.LevelUp.security.TokenJwtConfig.*;
 
@@ -38,26 +37,44 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             throws IOException, ServletException {
 
         String path = request.getServletPath();
+        String method = request.getMethod();
 
-        // RUTAS PÚBLICAS (NO VALIDAR JWT) - Esto ya maneja el POST /login
+        // ============================
+        // 1) RUTAS PÚBLICAS SIEMPRE
+        // ============================
         if (path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/webjars")
                 || path.equals("/swagger-ui.html")
                 || path.equals("/api/v1/auth/login")
-                || path.equals("/api/v1/auth/registro")
-                || path.startsWith("/api/v1/productos")
-                || path.startsWith("/api/v1/categorias")
-                || path.startsWith("/api/v1/noticias")) {
+                || path.equals("/api/v1/auth/registro")) {
 
             chain.doFilter(request, response);
             return;
         }
 
+        // ===================================
+        // 2) GET públicos a productos/etc.
+        //    (NO se exige ni lee JWT)
+        // ===================================
+        if ("GET".equalsIgnoreCase(method) &&
+                (path.startsWith("/api/v1/productos")
+                        || path.startsWith("/api/v1/categorias")
+                        || path.startsWith("/api/v1/noticias"))) {
+
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // ===================================
+        // 3) Resto de rutas: mirar el header
+        // ===================================
         String header = request.getHeader(HEADER_STRING);
 
         if (header == null || !header.startsWith(JWT_TOKEN_PREFIX)) {
+            // sin token -> pasas, pero luego Spring Security
+            // aplicará sus reglas (authenticated(), hasRole(), etc.)
             chain.doFilter(request, response);
             return;
         }
@@ -71,18 +88,15 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
 
         String username = claims.getPayload().getSubject();
 
-        // **INICIO DE LA CORRECCIÓN**
+        // authorities viene como JSON, lo convertimos a SimpleGrantedAuthority
         String rolesJson = claims.getPayload().get("authorities").toString();
 
-        // Paso 1: Deserializar el JSON que contiene los roles
         List<Map<String, String>> authoritiesMapList =
                 new ObjectMapper().readValue(rolesJson, new TypeReference<>() {});
 
-        // Paso 2: Mapear la lista de Maps a la clase concreta SimpleGrantedAuthority
         List<SimpleGrantedAuthority> authorities = authoritiesMapList.stream()
                 .map(authMap -> new SimpleGrantedAuthority(authMap.get("authority")))
                 .collect(Collectors.toList());
-        // **FIN DE LA CORRECCIÓN**
 
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
