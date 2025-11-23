@@ -77,7 +77,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/imagenes/**").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/api/v1/boletas").authenticated()
                         // Admin
                         .requestMatchers(HttpMethod.POST, "/api/v1/productos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasRole("ADMIN")
