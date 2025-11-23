@@ -67,18 +67,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponseDTO login(LoginRequestDTO dto) {
         Usuario u = usuarioRepo.findByCorreoIgnoreCase(dto.getCorreo())
-                .orElseThrow(() -> new IllegalArgumentException("Credenciales inválidas"));
+                .orElseThrow(() -> new IllegalArgumentException("Datos erroneos"));
 
         if (!passwordEncoder.matches(dto.getContrasena(), u.getContrasena())) {
-            throw new IllegalArgumentException("Credenciales inválidas");
+            throw new IllegalArgumentException("Datos erroneos");
         }
 
-        String token = jwtService.generateToken(u); // tu método de generación de token
+        String token = jwtService.generateToken(u);
 
         return LoginResponseDTO.builder()
                 .token(token)
                 .username(u.getCorreo())
                 .roles(u.getRoles())
+                .idUsuario(u.getIdUsuario())
                 .message("Inicio de sesión exitoso")
                 .build();
     }

@@ -75,9 +75,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = userDetails.getUsername();
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
+        // 🔥obtiene el ID del usuario autenticado
+        Long idUsuario = userDetails.getUsuario().getIdUsuario();
+
         Claims claims = Jwts.claims()
                 .add("authorities", new ObjectMapper().writeValueAsString(roles))
                 .add("username", username)
+                .add("idUsuario", idUsuario)
                 .build();
 
         String token = Jwts.builder()
@@ -94,6 +98,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         body.put("token", token);
         body.put("username", username);
         body.put("roles", roles);
+        body.put("idUsuario", idUsuario);
 
         response.setContentType(CONTENT_TYPE);
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));

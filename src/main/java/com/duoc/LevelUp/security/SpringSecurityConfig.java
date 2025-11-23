@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class SpringSecurityConfig {
 
     // ----------------------------------------------------
-    // 1. BEANS BÁSICOS (MANTENER SOLO ESTOS)
+    // 1. BEANS BÁSICOS
     // ----------------------------------------------------
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -47,6 +47,7 @@ public class SpringSecurityConfig {
 
         // 1. Crear e Inicializar JwtAuthenticationFilter (LOGIN)
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager);
+
         // CRUCIAL: Aseguramos la URL correcta del login.
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
 
@@ -79,6 +80,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/imagenes/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/boletas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").authenticated()
                         // Admin
                         .requestMatchers(HttpMethod.POST, "/api/v1/productos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasRole("ADMIN")
@@ -87,6 +89,8 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/noticias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/noticias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasRole("ADMIN")
+
+
 
                         .requestMatchers("/api/v1/productos/*/opiniones/**").authenticated()
 

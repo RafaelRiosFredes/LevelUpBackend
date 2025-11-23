@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@CrossOrigin(origins = "http://localhost:5173")
-
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
