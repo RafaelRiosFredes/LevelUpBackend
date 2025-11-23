@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy; // Importar si lo usas
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,15 +41,12 @@ public class SpringSecurityConfig {
 
     // ----------------------------------------------------
     // 2. CONFIGURACIÓN DE LA CADENA DE FILTROS (SecurityFilterChain)
-    // Se inyecta AuthenticationManager y se crean los filtros localmente.
     // ----------------------------------------------------
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
 
         // 1. Crear e Inicializar JwtAuthenticationFilter (LOGIN)
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager);
-
-        // CRUCIAL: Aseguramos la URL correcta del login.
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
 
         // 2. Crear e Inicializar JwtValidationFilter (VALIDACIÓN)
@@ -57,13 +55,14 @@ public class SpringSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Si usas JWT
                 .authorizeHttpRequests(auth -> auth
 
-                        // Rutas públicas (Swagger)
+                        // ✅ RUTAS PÚBLICAS (Swagger: Rutas por defecto)
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**",
+                                "/v3/api-docs/**",       // CRÍTICO: Configuración remota
                                 "/v3/api-docs.yaml",
                                 "/swagger-resources/**",
                                 "/webjars/**"
@@ -74,14 +73,18 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Productos públicos
+                        // Productos y Categorías públicos (GET)
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/noticias/imagenes/**").permitAll()
+
+                        // Rutas autenticadas (cualquier rol)
                         .requestMatchers(HttpMethod.POST, "/api/v1/boletas").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").authenticated()
-                        // Admin
+                        .requestMatchers("/api/v1/productos/*/opiniones/**").authenticated()
+
+                        // Rutas de ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/v1/productos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasRole("ADMIN")
@@ -90,17 +93,12 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/noticias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasRole("ADMIN")
 
-
-
-                        .requestMatchers("/api/v1/productos/*/opiniones/**").authenticated()
-
+                        // Todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
                 )
 
-                // IMPORTANTE: Añadir primero el filtro de autenticación (Login)
+                // 3. Añadir filtros JWT a la cadena
                 .addFilter(jwtAuthenticationFilter)
-
-                // Luego el filtro de validación (JWT Check)
                 .addFilterBefore(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
