@@ -20,10 +20,12 @@ public class ProductoImagenServiceImpl implements ProductoImagenService{
     private final ProductoImagenRepository imagenRepo;
 
     @Override
+    @Transactional
     public ProductoImagenResponseDTO agregarImagenBase64(Long idProducto, ProductoImagenCreateDTO dto){
         Producto producto = productoRepo.findById(idProducto)
                 .orElseThrow(() -> new NotFoundException("Producto " + idProducto + " no existe"));
         byte[] bytes = Base64.getDecoder().decode(dto.getBase64());
+
         ProductoImagen img = new ProductoImagen();
         img.setProducto(producto);
         img.setNombreArchivo(dto.getNombreArchivo());
@@ -35,7 +37,7 @@ public class ProductoImagenServiceImpl implements ProductoImagenService{
 
         return ProductoImagenResponseDTO.builder()
                 .idImagen(saved.getIdImagen())
-                .url("/api/imagenes/" + saved.getIdImagen())
+                .url("/api/v1/imagenes/" + saved.getIdImagen())
                 .contentType(saved.getContentType())
                 .sizeBytes(saved.getSizeBytes())
                 .nombreArchivo(saved.getNombreArchivo())
@@ -61,7 +63,7 @@ public class ProductoImagenServiceImpl implements ProductoImagenService{
         return imagenRepo.findByProducto_IdProducto(idProducto).stream().map(img ->
                 ProductoImagenResponseDTO.builder()
                         .idImagen(img.getIdImagen())
-                        .url("/api/imagenes/" + img.getIdImagen())
+                        .url("/api/v1/imagenes/" + img.getIdImagen())
                         .contentType(img.getContentType())
                         .sizeBytes(img.getSizeBytes())
                         .nombreArchivo(img.getNombreArchivo())
