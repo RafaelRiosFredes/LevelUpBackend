@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
-        // La URL de proceso se establece aquí, asegurando que coincida con el endpoint de login.
+
         this.setFilterProcessesUrl("/api/v1/auth/login");
     }
 
@@ -68,14 +68,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult)
             throws IOException {
 
-        // CORRECCIÓN: Castear a la clase CustomUserDetails, no a org.springframework.security.core.userdetails.User
+
         CustomUserDetails userDetails =
                 (CustomUserDetails) authResult.getPrincipal();
 
         String username = userDetails.getUsername();
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-        // 🔥obtiene el ID del usuario autenticado
+
         Long idUsuario = userDetails.getUsuario().getIdUsuario();
 
         Claims claims = Jwts.claims()

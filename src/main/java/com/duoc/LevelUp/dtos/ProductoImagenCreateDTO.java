@@ -10,7 +10,7 @@ public class ProductoImagenCreateDTO {
     private String nombreArchivo;
 
     @NotBlank
-    private String contentType; // ej imagen/png
+    private String contentType;
 
     @NotBlank
     private String base64;

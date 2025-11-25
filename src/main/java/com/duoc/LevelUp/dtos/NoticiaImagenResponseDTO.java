@@ -7,7 +7,7 @@ import lombok.*;
 public class NoticiaImagenResponseDTO {
 
     private Long idImagenNoticia;
-    private String url;          // ej: /api/noticias/imagenes/5
+    private String url;
     private String contentType;
     private Long sizeBytes;
     private String nombreArchivo;

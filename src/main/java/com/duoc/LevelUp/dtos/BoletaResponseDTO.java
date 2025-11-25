@@ -15,7 +15,7 @@ public class BoletaResponseDTO {
     private String nombreUsuario;
 
     private Long totalSinDescuento;
-    private Integer descuento;          // porcentaje (0 o 20)
+    private Integer descuento;          // porcentaje
     private Long total;                 // total ya con descuento
 
     private Boolean descuentoDuocAplicado;

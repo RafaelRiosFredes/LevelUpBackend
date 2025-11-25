@@ -26,9 +26,9 @@ import java.util.Arrays;
 @EnableMethodSecurity
 public class SpringSecurityConfig {
 
-    // ----------------------------------------------------
+
     // 1. BEANS BÁSICOS
-    // ----------------------------------------------------
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -39,9 +39,9 @@ public class SpringSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // ----------------------------------------------------
+
     // 2. CONFIGURACIÓN DE LA CADENA DE FILTROS (SecurityFilterChain)
-    // ----------------------------------------------------
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
 
@@ -58,11 +58,11 @@ public class SpringSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Si usas JWT
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ RUTAS PÚBLICAS (Swagger: Rutas por defecto)
+                        // RUTAS PÚBLICAS
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**",       // CRÍTICO: Configuración remota
+                                "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
                                 "/swagger-resources/**",
                                 "/webjars/**"
@@ -93,7 +93,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/noticias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasRole("ADMIN")
 
-                        // Todas las demás rutas requieren autenticación
+
                         .anyRequest().authenticated()
                 )
 
@@ -104,10 +104,8 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-
-    // ----------------------------------------------------
     // 3. CORS Configuration
-    // ----------------------------------------------------
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();

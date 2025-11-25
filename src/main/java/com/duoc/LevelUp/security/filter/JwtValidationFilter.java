@@ -39,9 +39,8 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
         String path = request.getServletPath();
         String method = request.getMethod();
 
-        // ============================
-        // 1) RUTAS PÚBLICAS SIEMPRE
-        // ============================
+        // 1) RUTAS PÚBLICAS
+
         if (path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-resources")
@@ -54,10 +53,9 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        // ===================================
+
         // 2) GET públicos a productos/etc.
-        //    (NO se exige ni lee JWT)
-        // ===================================
+
         if ("GET".equalsIgnoreCase(method) &&
                 (path.startsWith("/api/v1/productos")
                         || path.startsWith("/api/v1/categorias")
@@ -67,14 +65,13 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        // ===================================
+
         // 3) Resto de rutas: mirar el header
-        // ===================================
+
         String header = request.getHeader(HEADER_STRING);
 
         if (header == null || !header.startsWith(JWT_TOKEN_PREFIX)) {
-            // sin token -> pasas, pero luego Spring Security
-            // aplicará sus reglas (authenticated(), hasRole(), etc.)
+
             chain.doFilter(request, response);
             return;
         }
@@ -88,7 +85,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
 
         String username = claims.getPayload().getSubject();
 
-        // authorities viene como JSON, lo convertimos a SimpleGrantedAuthority
+
         String rolesJson = claims.getPayload().get("authorities").toString();
 
         List<Map<String, String>> authoritiesMapList =

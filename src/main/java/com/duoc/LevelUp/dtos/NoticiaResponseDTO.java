@@ -13,6 +13,6 @@ public class NoticiaResponseDTO {
     private String titulo;
     private String descripcion;
     private String autor;
-    private String fechaPublicacion; // ya formateada "yyyy-MM-dd"
+    private String fechaPublicacion;
     private List<NoticiaImagenResponseDTO> imagenes;
 }
