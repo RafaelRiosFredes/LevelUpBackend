@@ -16,7 +16,7 @@ public class NoticiaCreateDTO {
     @NotBlank
     private String autor;
 
-    // en JSON va como "yyyy-MM-dd"
+    // en json va como "yyyy-MM-dd"
     @NotNull
     private java.time.LocalDate fechaPublicacion;
 }

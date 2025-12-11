@@ -10,7 +10,7 @@ public interface OpinionService {
 
     List<OpinionResponseDTO> listarPorProducto(Long idProducto);
 
-    void eliminarOpinionActual(Long idProducto);        // usuario borra su propia opinión
+    void eliminarOpinionActual(Long idProducto);
 
-    void eliminarOpinionDeUsuario(Long idProducto, Long idUsuario); // admin
+    void eliminarOpinionDeUsuario(Long idProducto, Long idUsuario);
 }

@@ -40,16 +40,14 @@ public class SpringSecurityConfig {
     }
 
 
-    // 2. CONFIGURACIÓN DE LA CADENA DE FILTROS (SecurityFilterChain)
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
 
-        // 1. Crear e Inicializar JwtAuthenticationFilter (LOGIN)
+        // 1. Crea e Inicializa JwtAuthenticationFilter (LOGIN)
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
 
-        // 2. Crear e Inicializar JwtValidationFilter (VALIDACIÓN)
+        // 2. Crea e Inicializar JwtValidationFilter (VALIDACIÓN)
         JwtValidationFilter jwtValidationFilter = new JwtValidationFilter(authenticationManager);
 
         http
@@ -106,7 +104,7 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-    // 3. CORS Configuration
+    // 3. Configuration
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

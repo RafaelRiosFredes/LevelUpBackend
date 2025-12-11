@@ -36,7 +36,7 @@ public class ProductoImagen {
     @Column(name = "size_bytes", nullable = false)
     private Long sizeBytes;
 
-    @JdbcTypeCode(SqlTypes.BINARY) // <--- Agrega esto
-    @Column(name = "data", nullable = false) // No hace falta el columnDefinition, Hibernate ya sabe
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @Column(name = "data", nullable = false)
     private byte[] data;
 }
