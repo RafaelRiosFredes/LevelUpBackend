@@ -44,6 +44,8 @@ __Para Backend:__
 
 Clona el repositorio
 
+git clone https://github.com/RafaelRiosFredes/LevelUpBackend.git
+
 Abre con IntelliJ IDEA
 
 Corre el proyecto desde IntelliJ
