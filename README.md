@@ -30,7 +30,8 @@ __C) Instalación__
 
 Para Android:
 
-Clona el repositorio git clone https://github.com/RafaelRiosFredes/LevelupApp.git
+Clona el repositorio 
+git clone https://github.com/RafaelRiosFredes/LevelupApp.git
 Abre Android Studio
 Sincroniza Gradle
 Ejecuta en un emulador Android
