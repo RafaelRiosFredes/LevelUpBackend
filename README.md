@@ -28,18 +28,24 @@ core/ → Utilidades, sesión, interceptor
 
 __C) Instalación__
 
-Para Android:
+__Para Android:__
 
 Clona el repositorio 
+
 git clone https://github.com/RafaelRiosFredes/LevelupApp.git
+
 Abre Android Studio
+
 Sincroniza Gradle
+
 Ejecuta en un emulador Android
 
-Para Backend:
+__Para Backend:__
 
 Clona el repositorio
+
 Abre con IntelliJ IDEA
+
 Corre el proyecto desde IntelliJ
 
 __D) Funcionalidades principales:__
