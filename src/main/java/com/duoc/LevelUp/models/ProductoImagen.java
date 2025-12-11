@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "producto_imagen")
@@ -34,8 +36,7 @@ public class ProductoImagen {
     @Column(name = "size_bytes", nullable = false)
     private Long sizeBytes;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "data", nullable = false, columnDefinition = "BYTEA")
+    @JdbcTypeCode(SqlTypes.BINARY) // <--- Agrega esto
+    @Column(name = "data", nullable = false) // No hace falta el columnDefinition, Hibernate ya sabe
     private byte[] data;
 }
