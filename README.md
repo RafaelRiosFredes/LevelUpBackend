@@ -40,7 +40,7 @@ Sincroniza Gradle
 
 Ejecuta en un emulador Android
 
-*Apk firmado y .jks en carpeta llamada jpk
+*Apk firmado y .jks en carpeta llamada apk
 
 __Para Backend:__
 
