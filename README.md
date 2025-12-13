@@ -40,6 +40,8 @@ Sincroniza Gradle
 
 Ejecuta en un emulador Android
 
+*Apk firmado y .jks en carpeta llamada jpk
+
 __Para Backend:__
 
 Clona el repositorio
